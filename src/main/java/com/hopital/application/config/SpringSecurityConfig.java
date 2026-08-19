@@ -47,7 +47,7 @@ public class SpringSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Cho phép React app của bạn
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://hopital-frontend-71bc.onrender.com")); // Cho phép React app của bạn
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
         configuration.setAllowCredentials(true); // Quan trọng cho cookies và authorization headers
