@@ -1,0 +1,204 @@
+/* Khởi tạo biến màu sắc cho Dark Mode hiện đại */
+:root {
+  --bg-main: #121212;
+  --bg-surface: #1e1e1e;
+  --bg-surface-hover: #2a2a2a;
+  --primary-blue: #3b82f6;
+  --primary-blue-hover: #2563eb;
+  --accent-green: #10b981;
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --border-color: #374151;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Cấu trúc layout chính */
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---------------- NAVBAR ---------------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-surface);
+  padding: 1rem 2.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.nav-brand a {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-links li {
+  margin-left: 1.5rem;
+}
+
+.nav-links a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-links a:hover {
+  background-color: var(--bg-surface-hover);
+  color: var(--primary-blue);
+}
+
+/* ---------------- CONTAINER ---------------- */
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  flex-grow: 1;
+  /* Đã xóa text-align: center để form và list hiển thị đúng chuẩn */
+}
+
+/* ---------------- LAYOUT CHÍNH (XẾP DỌC) ---------------- */
+.appointment-layout {
+  display: flex;
+  flex-direction: column; /* Xếp form lên trên, list xuống dưới */
+  gap: 3rem; /* Khoảng cách giữa Form và Danh sách */
+  align-items: center; /* Đưa Form ra chính giữa màn hình */
+}
+
+/* ---------------- FORM ĐẶT LỊCH (NẰM TRÊN) ---------------- */
+.appointment-form {
+  width: 100%;
+  max-width: 600px; /* Giới hạn chiều rộng để form không bị bè ra quá to */
+  background-color: var(--bg-surface);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-color);
+  /* Đã xóa position: sticky vì không cần thiết khi form nằm ở trên */
+}
+.appointment-form h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Style chung cho Input, Select, Textarea */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-size: 1rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-blue);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+  background-color: var(--primary-blue-hover);
+}
+
+/* ---------------- DANH SÁCH LỊCH HẸN (NẰM DƯỚI) ---------------- */
+.appointment-list-container {
+  width: 100%; /* Cho phép phần danh sách chiếm toàn bộ chiều ngang */
+  display: grid;
+  /* Các thẻ lịch hẹn vẫn sẽ tự động dàn thành 3-4 cột ngang tùy độ rộng màn hình */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ---------------- STYLE CHO CARD (GIỮ NGUYÊN) ---------------- */
+.appointment-card {
+  background-color: var(--bg-surface);
+  padding: 1.2rem 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--accent-green);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+  height: fit-content;
+}
+
+.appointment-card:hover {
+  transform: translateY(-4px);
+  background-color: var(--bg-surface-hover);
+}
+
+.appointment-card p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.appointment-card strong {
+  color: var(--text-secondary);
+  display: inline-block;
+  width: 90px;
+}

@@ -1,0 +1,118 @@
+/* Container chính */
+.appointment-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #f9f9f9;
+}
+
+/* Card cho form đặt lịch */
+.appointment-form-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+}
+
+.appointment-form-card h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Nhóm các phần tử trong form */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group select,
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Nút submit */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Phần danh sách lịch hẹn */
+.appointment-list {
+    width: 100%;
+    max-width: 900px;
+}
+
+.appointment-list h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Lưới hiển thị các card lịch hẹn - SỬA ĐỔI Ở ĐÂY */
+.appointment-grid {
+    display: flex; /* Chuyển sang Flexbox */
+    flex-direction: row; /* Sắp xếp theo hàng ngang */
+    overflow-x: auto; /* Bật thanh cuộn ngang */
+    gap: 20px;
+    padding: 10px 0 20px 0; /* Thêm padding cho đẹp và có không gian cho thanh cuộn */
+    -webkit-overflow-scrolling: touch; /* Cuộn mượt hơn trên thiết bị di động */
+}
+
+/* Card cho mỗi lịch hẹn - SỬA ĐỔI Ở ĐÂY */
+.appointment-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    border-left: 5px solid #28a745;
+    width: 320px; /* Đặt chiều rộng cố định */
+    flex-shrink: 0; /* Ngăn không cho card bị co lại */
+}
+
+.appointment-card p {
+    margin: 0 0 10px 0;
+    color: #444;
+    line-height: 1.5;
+}
+
+.appointment-card p:last-child {
+    margin-bottom: 0;
+}
+
+.appointment-card strong {
+    color: #333;
+}
