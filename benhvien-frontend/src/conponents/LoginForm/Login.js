@@ -12,7 +12,7 @@ function Login({ onLoginSuccess }) {
         e.preventDefault();
         setError('');
 
-        fetch('http://localhost:8080/api/auth/login', {
+        fetch('https://hopital-web-project.onrender.com/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -22,7 +22,7 @@ function AppointmentList() {
         const signal = abortController.signal;
 
         // Fetch doctors
-        fetch('http://localhost:8080/api/doctors', { headers: getAuthHeaders(), signal })
+        fetch('https://hopital-web-project.onrender.com/api/doctors', { headers: getAuthHeaders(), signal })
             .then(response => {
                 if (response.status === 401) {
                     navigate('/login');
@@ -51,7 +51,7 @@ function AppointmentList() {
     }, [navigate]);
 
     const fetchAppointments = (signal) => {
-        fetch('http://localhost:8080/api/appointments', { headers: getAuthHeaders(), signal })
+        fetch('https://hopital-web-project.onrender.com/api/appointments', { headers: getAuthHeaders(), signal })
             .then(response => {
                 if (response.status === 401) {
                     navigate('/login');
@@ -85,7 +85,7 @@ function AppointmentList() {
             reason: reason,
         };
 
-        fetch('http://localhost:8080/api/appointments', {
+        fetch('https://hopital-web-project.onrender.com/api/appointments', {
             method: 'POST',
             headers: getAuthHeaders(), // Use authenticated headers
             body: JSON.stringify(newAppointmentRequest),
