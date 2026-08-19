@@ -8,16 +8,6 @@ import Register from './conponents/Register/Register';
 import './App.css';
 
 function App() {
-
-  const express = require('express');
-  const cors = require('cors');
-  const app = express();
-
-// Cho phép tất cả các nguồn truy cập (hoặc chỉ định cụ thể domain frontend của bạn)
-  app.use(cors({
-    origin: 'https://hopital-frontend-71bc.onrender.com',
-    credentials: true
-  }));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
