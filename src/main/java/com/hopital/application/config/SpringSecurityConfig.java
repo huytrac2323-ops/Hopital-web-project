@@ -47,13 +47,14 @@ public class SpringSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://hopital-frontend-71bc.onrender.com")); // Cho phép React app của bạn
+        // Sử dụng setAllowedOriginPatterns thay vì setAllowedOrigins
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:3000", "https://hopital-frontend-71bc.onrender.com"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
-        configuration.setAllowCredentials(true); // Quan trọng cho cookies và authorization headers
-        configuration.setMaxAge(3600L); // Thời gian cache cho pre-flight request
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Áp dụng cho tất cả các đường dẫn
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
@@ -62,6 +63,8 @@ public class SpringSecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Áp dụng cấu hình CORS
                 .authorizeHttpRequests((authorize) -> authorize
+                        // Cho phép tất cả các yêu cầu OPTIONS
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // Cho phép tất cả người dùng truy cập các trang này
                         .requestMatchers("/", "/login", "/register**", "/css/**", "/js/**", "/api/auth/**").permitAll()
                         // Tất cả các yêu cầu khác đều cần xác thực
@@ -69,24 +72,22 @@ public class SpringSecurityConfig {
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint((request, response, authException) -> {
-                            // Đối với các yêu cầu API (ví dụ: bắt đầu bằng /api/), gửi phản hồi 401 Unauthorized JSON
                             if (request.getRequestURI().startsWith("/api/")) {
                                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                                 response.setContentType("application/json");
                                 response.getWriter().write("{\"error\": \"Unauthorized\", \"message\": \"Authentication required\"}");
                             } else {
-                                // Đối với các yêu cầu không phải API (ví dụ: truy cập trực tiếp trình duyệt vào các trang HTML được bảo vệ), chuyển hướng đến trang đăng nhập
                                 response.sendRedirect("/login");
                             }
                         })
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Thêm dòng này
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .permitAll()
                 );
 
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Thêm dòng này
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
