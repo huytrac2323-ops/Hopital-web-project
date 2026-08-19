@@ -4,11 +4,11 @@ import com.hopital.application.dto.RegisterDto;
 import com.hopital.application.service.AuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/api/auth")
+@CrossOrigin(origins = "https://hopital-frontend-71bc.onrender.com")
 public class WebController {
 
     private final AuthService authService;

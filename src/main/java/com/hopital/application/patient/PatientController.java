@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/patients") // Base URL cho các API liên quan đến bệnh nhân
-@CrossOrigin(origins = "http://localhost:3000") // Cho phép React frontend truy cập
+@RequestMapping("/api/auth")
+@CrossOrigin(origins = "https://hopital-frontend-71bc.onrender.com")
 public class PatientController {
 
     @Autowired

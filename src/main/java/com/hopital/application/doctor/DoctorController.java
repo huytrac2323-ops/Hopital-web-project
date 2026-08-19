@@ -7,8 +7,8 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/doctors")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/auth")
+@CrossOrigin(origins = "https://hopital-frontend-71bc.onrender.com")
 public class DoctorController {
 
     @Autowired
