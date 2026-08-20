@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -66,36 +67,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public String register(RegisterDto registerDto) {
         logger.info("Attempting to register user: {}", registerDto.getUsername());
 
         // add check for username exists in database
-        logger.info("Checking if username {} already exists.", registerDto.getUsername());
-        try {
-            if(userRepository.existsByUsername(registerDto.getUsername())){
-                logger.warn("Registration failed: Username {} is already exists!.", registerDto.getUsername());
-                throw new HospitalAPIException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
-            }
-            logger.info("Username {} is available.", registerDto.getUsername());
-        } catch (Exception e) {
-            logger.error("Error checking existence of username {}: {}", registerDto.getUsername(), e.getMessage(), e);
-            throw new HospitalAPIException(HttpStatus.INTERNAL_SERVER_ERROR, "Error checking username availability.");
+        if(userRepository.existsByUsername(registerDto.getUsername())){
+            throw new HospitalAPIException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
         }
-
 
         // add check for email exists in database
-        logger.info("Checking if email {} already exists.", registerDto.getEmail());
-        try {
-            if(userRepository.existsByEmail(registerDto.getEmail())){
-                logger.warn("Registration failed: Email {} is already exists!.", registerDto.getEmail());
-                throw new HospitalAPIException(HttpStatus.BAD_REQUEST, "Email is already exists!.");
-            }
-            logger.info("Email {} is available.", registerDto.getEmail());
-        } catch (Exception e) {
-            logger.error("Error checking existence of email {}: {}", registerDto.getEmail(), e.getMessage(), e);
-            throw new HospitalAPIException(HttpStatus.INTERNAL_SERVER_ERROR, "Error checking email availability.");
+        if(userRepository.existsByEmail(registerDto.getEmail())){
+            throw new HospitalAPIException(HttpStatus.BAD_REQUEST, "Email is already exists!.");
         }
-
 
         User user = new User();
         user.setName(registerDto.getUsername());
@@ -105,39 +89,26 @@ public class AuthServiceImpl implements AuthService {
 
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName("ROLE_USER");
+
+        // Nếu quyền không tồn tại, tạo và lưu nó trước
         if (userRole == null) {
             logger.info("ROLE_USER not found, creating it.");
             userRole = new Role();
             userRole.setName("ROLE_USER");
             roleRepository.save(userRole);
         }
+        
         roles.add(userRole);
         user.setRoles(roles);
 
-        try {
-            logger.info("Saving new user: {}", user.getUsername());
-            userRepository.save(user);
-            logger.info("User {} saved successfully.", user.getUsername());
-        } catch (Exception e) {
-            logger.error("Error saving user {}: {}", user.getUsername(), e.getMessage(), e);
-            throw new HospitalAPIException(HttpStatus.INTERNAL_SERVER_ERROR, "Error saving user.");
-        }
-
+        userRepository.save(user);
 
         // Create a corresponding Patient entry
         Patient patient = new Patient();
         patient.setName(registerDto.getUsername());
         patient.setEmail(registerDto.getEmail());
         // You might want to set other default values or leave them null
-        try {
-            logger.info("Saving new patient for user: {}", patient.getName());
-            patientRepository.save(patient);
-            logger.info("Patient {} saved successfully.", patient.getName());
-        } catch (Exception e) {
-            logger.error("Error saving patient for user {}: {}", patient.getName(), e.getMessage(), e);
-            // Consider rolling back user creation if patient creation fails, or handle appropriately
-            throw new HospitalAPIException(HttpStatus.INTERNAL_SERVER_ERROR, "Error saving patient.");
-        }
+        patientRepository.save(patient);
 
         logger.info("User {} registered successfully!.", registerDto.getUsername());
         return "User registered successfully!.";
