@@ -11,7 +11,7 @@ function DoctorList() {
 
     // Sử dụng 'useEffect' để tải dữ liệu khi component được render lần đầu
     useEffect(() => {
-        fetch('https://hopital-web-project.onrender.com/api/doctors', { headers: getAuthHeaders() }) // Gọi API từ backend Spring Boot
+        fetch(`${process.env.REACT_APP_API_URL}/api/doctors`, { headers: getAuthHeaders() }) // Gọi API từ backend Spring Boot
             .then(response => {
                 if (response.status === 401) {
                     navigate('/login');

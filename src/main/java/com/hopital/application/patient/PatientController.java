@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/patients")
 @CrossOrigin(origins = "https://hopital-frontend-71bc.onrender.com")
 public class PatientController {
 
