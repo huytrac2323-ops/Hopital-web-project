@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.SequenceGenerator;
 import java.util.Date;
 
 @Entity // Đánh dấu đây là một JPA Entity
@@ -19,7 +20,15 @@ import java.util.Date;
 public class Patient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = "patient_sequence"
+    )
+    @SequenceGenerator(
+        name = "patient_sequence",
+        sequenceName = "patient_sequence",
+        allocationSize = 1
+    )
     private Long id;
     private String name;
     private Date dateOfBirth;
@@ -28,7 +37,4 @@ public class Patient {
     private String phoneNumber;
     private String email; // Thêm trường email
     private String medicalHistory; // Thêm trường lịch sử bệnh án
-
-    // Constructor có tham số (nếu cần tùy chỉnh, nếu không @AllArgsConstructor sẽ xử lý)
-    // Đã được thay thế bởi @AllArgsConstructor của Lombok
 }

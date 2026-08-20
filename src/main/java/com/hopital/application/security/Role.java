@@ -15,7 +15,15 @@ import lombok.Setter;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = "role_sequence"
+    )
+    @SequenceGenerator(
+        name = "role_sequence",
+        sequenceName = "role_sequence",
+        allocationSize = 1
+    )
     private Long id;
 
     @Column(nullable = false, unique = true)

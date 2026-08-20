@@ -17,13 +17,25 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = "user_sequence"
+    )
+    @SequenceGenerator(
+        name = "user_sequence",
+        sequenceName = "user_sequence",
+        allocationSize = 1
+    )
     private Long id;
+    
     private String name;
+    
     @Column(nullable = false, unique = true)
     private String username;
+    
     @Column(nullable = false, unique = true)
     private String email;
+
     @Column(nullable = false)
     private String password;
 
