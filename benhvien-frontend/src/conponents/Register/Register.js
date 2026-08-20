@@ -8,13 +8,6 @@ function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // State cho thông tin bệnh nhân
-    const [dateOfBirth, setDateOfBirth] = useState('');
-    const [gender, setGender] = useState('');
-    const [address, setAddress] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [medicalHistory, setMedicalHistory] = useState('');
-
     // State cho thông báo
     const [message, setMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
@@ -27,12 +20,7 @@ function Register() {
         const registrationData = {
             username,
             email,
-            password,
-            dateOfBirth,
-            gender,
-            address,
-            phoneNumber,
-            medicalHistory
+            password
         };
 
         try {
@@ -74,53 +62,21 @@ function Register() {
                         </div>
                     )}
 
-                    {/* Phần thông tin tài khoản */}
-                    <fieldset>
-                        <legend>Thông tin tài khoản</legend>
-                        <div className="form-group">
-                            <label>Tên đăng nhập</label>
-                            <input type="text" placeholder="Nhập tên đăng nhập..." value={username} onChange={(e) => setUsername(e.target.value)} required />
-                        </div>
-                        <div className="form-group">
-                            <label>Email</label>
-                            <input type="email" placeholder="Nhập địa chỉ email..." value={email} onChange={(e) => setEmail(e.target.value)} required />
-                        </div>
-                        <div className="form-group">
-                            <label>Mật khẩu</label>
-                            <input type="password" placeholder="Tạo mật khẩu..." value={password} onChange={(e) => setPassword(e.target.value)} required />
-                        </div>
-                    </fieldset>
+                    <div className="form-group">
+                        <label>Tên đăng nhập</label>
+                        <input type="text" placeholder="Nhập tên đăng nhập..." value={username} onChange={(e) => setUsername(e.target.value)} required />
+                    </div>
 
-                    {/* Phần thông tin bệnh nhân */}
-                    <fieldset>
-                        <legend>Thông tin cá nhân</legend>
-                        <div className="form-group">
-                            <label>Ngày sinh</label>
-                            <input type="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} required />
-                        </div>
-                        <div className="form-group">
-                            <label>Giới tính</label>
-                            <select value={gender} onChange={(e) => setGender(e.target.value)} required>
-                                <option value="">-- Chọn giới tính --</option>
-                                <option value="Nam">Nam</option>
-                                <option value="Nữ">Nữ</option>
-                                <option value="Khác">Khác</option>
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label>Địa chỉ</label>
-                            <input type="text" placeholder="Nhập địa chỉ..." value={address} onChange={(e) => setAddress(e.target.value)} required />
-                        </div>
-                        <div className="form-group">
-                            <label>Số điện thoại</label>
-                            <input type="tel" placeholder="Nhập số điện thoại..." value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
-                        </div>
-                        <div className="form-group">
-                            <label>Tiền sử bệnh án (nếu có)</label>
-                            <textarea placeholder="Mô tả ngắn gọn..." value={medicalHistory} onChange={(e) => setMedicalHistory(e.target.value)} />
-                        </div>
-                    </fieldset>
-                    
+                    <div className="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="Nhập địa chỉ email..." value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Mật khẩu</label>
+                        <input type="password" placeholder="Tạo mật khẩu..." value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    </div>
+
                     <button type="submit" className="register-button">Đăng Ký</button>
 
                     <div className="register-footer">
