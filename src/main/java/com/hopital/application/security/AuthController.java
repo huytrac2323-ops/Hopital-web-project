@@ -21,8 +21,14 @@ public class AuthController {
 
     // Build Login REST API
     @PostMapping(value = {"/login", "/signin"})
-    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
         JwtAuthResponse jwtAuthResponse = authService.login(loginDto);
+
+        // Kiểm tra nếu service trả về null thì báo lỗi 401 Unauthorized thay vì trả về rỗng làm sập frontend
+        if (jwtAuthResponse == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Sai tên đăng nhập hoặc mật khẩu");
+        }
+
         return ResponseEntity.ok(jwtAuthResponse);
     }
 
