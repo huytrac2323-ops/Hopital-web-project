@@ -103,11 +103,16 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
 
-        // Create a corresponding Patient entry
+        // Create a corresponding Patient entry with full details
         Patient patient = new Patient();
         patient.setName(registerDto.getUsername());
         patient.setEmail(registerDto.getEmail());
-        // You might want to set other default values or leave them null
+        patient.setDateOfBirth(registerDto.getDateOfBirth());
+        patient.setGender(registerDto.getGender());
+        patient.setAddress(registerDto.getAddress());
+        patient.setPhoneNumber(registerDto.getPhoneNumber());
+        patient.setMedicalHistory(registerDto.getMedicalHistory());
+
         patientRepository.save(patient);
 
         logger.info("User {} registered successfully!.", registerDto.getUsername());
