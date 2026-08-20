@@ -16,11 +16,17 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        // Kiểm tra và tạo ROLE_USER
         if (roleRepository.findByName("ROLE_USER") == null) {
-            roleRepository.save(new Role(null, "ROLE_USER"));
+            Role userRole = new Role();
+            userRole.setName("ROLE_USER");
+            roleRepository.save(userRole);
         }
+        // Kiểm tra và tạo ROLE_ADMIN
         if (roleRepository.findByName("ROLE_ADMIN") == null) {
-            roleRepository.save(new Role(null, "ROLE_ADMIN"));
+            Role adminRole = new Role();
+            adminRole.setName("ROLE_ADMIN");
+            roleRepository.save(adminRole);
         }
     }
 }
