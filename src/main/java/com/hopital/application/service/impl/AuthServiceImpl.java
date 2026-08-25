@@ -63,9 +63,11 @@ public class AuthServiceImpl implements AuthService {
 
         String token = jwtTokenProvider.generateToken(authentication);
 
+        // ⭐ In dòng này ra để kiểm tra xem token có thực sự được tạo không
+        System.out.println("TOKEN ĐƯỢC TẠO RA LÀ: " + token);
+
         return new JwtAuthResponse(token);
     }
-
     @Override
     @Transactional
     public String register(RegisterDto registerDto) {
@@ -118,4 +120,5 @@ public class AuthServiceImpl implements AuthService {
         logger.info("User {} registered successfully!.", registerDto.getUsername());
         return "User registered successfully!.";
     }
+
 }
