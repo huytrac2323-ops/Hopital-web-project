@@ -64,7 +64,7 @@ public class SpringSecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Áp dụng cấu hình CORS
                 .authorizeHttpRequests((authorize) -> authorize
                         // Cho phép tất cả các yêu cầu OPTIONS
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
                         // Cho phép tất cả người dùng truy cập các trang này
                         .requestMatchers("/", "/login", "/register**", "/css/**", "/js/**", "/api/auth/**").permitAll()
                         // Tất cả các yêu cầu khác đều cần xác thực

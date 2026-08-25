@@ -12,7 +12,7 @@ function Login({ onLoginSuccess }) {
         e.preventDefault();
         setError('');
 
-        fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+        fetch(`https://hopital-web-project.onrender.com/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
