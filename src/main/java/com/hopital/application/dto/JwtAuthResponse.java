@@ -9,12 +9,15 @@ public class JwtAuthResponse {
     private String accessToken;
     private String tokenType = "Bearer";
 
-    // Constructor, getters, setters
+    // 1. Thêm Constructor rỗng này vào (Bắt buộc cho Jackson)
+    public JwtAuthResponse() {
+    }
+
+    // 2. Constructor có tham số hiện tại của bạn
     public JwtAuthResponse(String accessToken) {
         this.accessToken = accessToken;
     }
 
-    // ⭐ BẮT BUỘC PHẢI CÓ DÒNG NÀY ĐỂ JAVA PHỤC VỤ DỮ LIỆU CHO FRONTEND:
     public String getAccessToken() {
         return accessToken;
     }
