@@ -6,7 +6,7 @@ import AppointmentList from './conponents/AppoimentList/AppointmentList';
 import Login from './conponents/LoginForm/Login';
 import Register from './conponents/Register/Register';
 import './App.css';
-import AdminPage from './components/AdminPage'; // Import trang vừa tạo
+import AdminPage from './conponents/AdminPage'; // Import trang vừa tạo
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
