@@ -28,14 +28,19 @@ function Login({ onLoginSuccess }) {
                 });
             })
             .then(data => {
-                if (data && data.accessToken) {
-                    localStorage.setItem('token', data.accessToken);
+                // Kiểm tra cả 2 trường hợp phổ biến: tên là accessToken hoặc tên là token
+                const token = data.accessToken || data.token;
+
+                if (token) {
+                    localStorage.setItem('token', token);
                     console.log('Login successful');
                     if (onLoginSuccess) {
                         onLoginSuccess();
                     }
                     navigate('/appointments');
                 } else {
+                    // Nếu muốn biết chính xác data trả về gì, bạn có thể log nó ra đây
+                    console.log("Dữ liệu thực tế Backend trả về:", data);
                     throw new Error('Không nhận được token xác thực từ server.');
                 }
             })

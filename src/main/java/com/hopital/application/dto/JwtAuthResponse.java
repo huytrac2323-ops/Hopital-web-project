@@ -1,6 +1,8 @@
 package com.hopital.application.dto;
-
+@Getter
+@Setter
 public class JwtAuthResponse {
+
     private String accessToken;
     private String tokenType = "Bearer";
 
