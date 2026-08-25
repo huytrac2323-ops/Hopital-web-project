@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
+import { Link } from 'react-router-dom';
 
 function Home() {
     const navigate = useNavigate();
@@ -27,6 +28,12 @@ function Home() {
                         <Link to="/appointments" className="btn btn-primary">
                             📅 Đặt Lịch Hẹn Ngay
                         </Link>
+
+                        {/* ⭐ Thêm nút Quản Trị vào đây để dễ bấm */}
+                        <Link to="/admin" className="btn btn-outline" style={{ borderColor: '#ff4d4f', color: '#ff4d4f' }}>
+                            🛡️ Quản Trị Hệ Thống
+                        </Link>
+
                         {isAuthenticated ? (
                             <button onClick={handleLogout} className="btn btn-outline">
                                 Đăng Xuất

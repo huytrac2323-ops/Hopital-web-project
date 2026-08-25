@@ -6,6 +6,8 @@ import AppointmentList from './conponents/AppoimentList/AppointmentList';
 import Login from './conponents/LoginForm/Login';
 import Register from './conponents/Register/Register';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import AdminPage from './components/AdminPage'; // Import trang vừa tạo
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -73,11 +75,15 @@ function App() {
             
             {/* Các route được bảo vệ (cần logic bảo vệ trong thực tế) */}
             <Route path="/doctors" element={<DoctorList />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </main>
       </div>
     </Router>
+
+
   );
+
 }
 
 export default App;
