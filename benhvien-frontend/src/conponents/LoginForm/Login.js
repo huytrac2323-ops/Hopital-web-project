@@ -23,7 +23,9 @@ function Login({ onLoginSuccess }) {
                 if (!response.ok) {
                     throw new Error('Tên đăng nhập hoặc mật khẩu không đúng.');
                 }
-                return response.json();
+                return response.text().then(text => {
+                    return text ? JSON.parse(text) : {};
+                });
             })
             .then(data => {
                 if (data && data.accessToken) {
