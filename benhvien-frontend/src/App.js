@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './Home'; // Import trang chủ mới
 import DoctorList from './conponents/DoctorList/DoctorList';
 import AppointmentList from './conponents/AppoimentList/AppointmentList';
