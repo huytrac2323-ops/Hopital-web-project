@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Home'; // Import trang chủ mới
 import DoctorList from './conponents/DoctorList/DoctorList';
 import AppointmentList from './conponents/AppoimentList/AppointmentList';
 import Login from './conponents/LoginForm/Login';
 import Register from './conponents/Register/Register';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AdminPage from './components/AdminPage'; // Import trang vừa tạo
 
 function App() {
