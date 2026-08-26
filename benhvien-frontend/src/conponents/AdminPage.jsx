@@ -14,7 +14,7 @@ function AdminPage() {
         }
 
         // Gọi API Admin để kiểm tra quyền
-        fetch('https://hopital-web-project.onrender.com/api/auth/admin/dashboard', {
+        fetch('https://hopital-web-project.onrender.com/api/admin/dashboard', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
