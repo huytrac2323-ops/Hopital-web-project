@@ -65,6 +65,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         // Cho phép tất cả các yêu cầu OPTIONS
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // ⭐ THÊM DÒNG NÀY: Chỉ tài khoản có quyền ADMIN mới được gọi các API /api/admin/**
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         // Cho phép tất cả người dùng truy cập các trang này
