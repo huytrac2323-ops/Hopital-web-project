@@ -110,10 +110,9 @@ function AdminPage() {
                     <form onSubmit={handleSaveDoctor} style={{ background: '#1e1e1e', padding: '20px', borderRadius: '8px', marginBottom: '20px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                         <h3>{isEditing ? 'Sửa thông tin Bác sĩ' : 'Thêm Bác sĩ mới'}</h3>
                         <div style={{ gridColumn: 'span 2' }}></div>
-                        <input type="text" placeholder="Tên bác sĩ" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required style={{ padding: '10px' }} />
-                        <input type="text" placeholder="Chuyên khoa" value={formData.specialty} onChange={e => setFormData({...formData, specialty: e.target.value})} required style={{ padding: '10px' }} />
-                        <input type="email" placeholder="Email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} required style={{ padding: '10px' }} />
-                        <input type="text" placeholder="Số điện thoại" value={formData.phoneNumber} onChange={e => setFormData({...formData, phoneNumber: e.target.value})} required style={{ padding: '10px' }} />
+                        <input type="text" placeholder="Tên bác sĩ" value={doctorForm.name} onChange={e => setDoctorForm({...doctorForm, name: e.target.value})} required style={{ padding: '10px' }} />
+                        <input type="text" placeholder="Chuyên khoa" value={doctorForm.speciality} onChange={e => setDoctorForm({...doctorForm, speciality: e.target.value})} required style={{ padding: '10px' }} />
+                        <input type="text" placeholder="Số điện thoại" value={doctorForm.phoneNumber} onChange={e => setDoctorForm({...doctorForm, phoneNumber: e.target.value})} required style={{ padding: '10px' }} />
                         <div style={{ gridColumn: 'span 2', display: 'flex', gap: '10px' }}>
                             <button type="submit" style={{ padding: '10px 20px', background: '#28a745', color: 'white', border: 'none', cursor: 'pointer' }}>
                                 {isEditing ? 'Cập nhật' : 'Thêm mới'}
