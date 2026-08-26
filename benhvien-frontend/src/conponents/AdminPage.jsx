@@ -13,7 +13,7 @@ function AdminPage() {
     const navigate = useNavigate();
     const [showForm, setShowForm] = useState(false);
     const [editingDoctorId, setEditingDoctorId] = useState(null);
-    const [doctorForm, setDoctorForm] = useState({ name: '', specialty: '', email: '', phone: '' });
+    const [doctorForm, setDoctorForm] = useState({ name: '', speciality: '', phoneNumber: '' });
     const token = localStorage.getItem('token');
     const API_BASE = 'https://hopital-web-project.onrender.com/api';
     useEffect(() => {
@@ -74,7 +74,7 @@ function AdminPage() {
     // Hàm mở Form điền sẵn dữ liệu để Sửa
     const handleEditClick = (doc) => {
         setEditingDoctorId(doc.id);
-        setDoctorForm({ name: doc.name, specialty: doc.specialty, email: doc.email || '', phone: doc.phone || '' });
+        setDoctorForm({ name: doc.name, speciality: doc.speciality, phoneNumber: doc.phoneNumber });
         setShowForm(true);
     };
 
