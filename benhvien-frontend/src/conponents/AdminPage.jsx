@@ -12,7 +12,7 @@ function AdminPage() {
 
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
-    const API_BASE = 'https://hopital-backend-xxxx.onrender.com/api/admin'; // ⚠️ Thay bằng link backend thật của bạn
+    const API_BASE = 'https://hopital-web-project.onrender.com'; // ⚠️ Thay bằng link backend thật của bạn
 
     useEffect(() => {
         if (!token) {
