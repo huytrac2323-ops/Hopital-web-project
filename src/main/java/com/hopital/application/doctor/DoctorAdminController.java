@@ -38,7 +38,7 @@ public class DoctorAdminController {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy bác sĩ có id: " + id));
 
         doctor.setName(doctorDetails.getName());
-        doctor.setSpecialty(doctorDetails.getSpecialty());
+        doctor.setSpeciality(doctorDetails.getSpeciality());
         doctor.setPhoneNumber(doctorDetails.getPhoneNumber());
 
         Doctor updatedDoctor = doctorRepository.save(doctor);
