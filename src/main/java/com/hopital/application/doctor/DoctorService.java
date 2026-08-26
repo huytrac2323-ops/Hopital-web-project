@@ -21,4 +21,17 @@ public class DoctorService {
         // Ví dụ: kiểm tra xem bác sĩ đã tồn tại chưa, validate dữ liệu, v.v.
         return doctorRepository.save(doctor);
     }
+    public Doctor save(Doctor doctor) {
+        return doctorRepository.save(doctor);
+    }
+    public void deleteById(Long id) {
+        doctorRepository.deleteById(id);
+    }
+
+    public List<Doctor> findAll() {
+        return doctorRepository.findAll();
+    }
+
+
+
 }

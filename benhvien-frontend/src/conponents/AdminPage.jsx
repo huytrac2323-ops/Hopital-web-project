@@ -15,8 +15,7 @@ function AdminPage() {
     const [editingDoctorId, setEditingDoctorId] = useState(null);
     const [doctorForm, setDoctorForm] = useState({ name: '', specialty: '', email: '', phone: '' });
     const token = localStorage.getItem('token');
-    const API_BASE = 'https://hopital-web-project.onrender.com/api/admin'; // ⚠️ Thay bằng link backend thật của bạn
-
+    const API_BASE = 'https://hopital-web-project.onrender.com/api';
     useEffect(() => {
         if (!token) {
             navigate('/login');

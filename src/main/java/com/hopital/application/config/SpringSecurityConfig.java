@@ -69,8 +69,7 @@ public class SpringSecurityConfig {
                         // ⭐ THÊM DÒNG NÀY: Chỉ tài khoản có quyền ADMIN mới được gọi các API /api/admin/**
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         // Cho phép tất cả người dùng truy cập các trang này
-                        .requestMatchers("/", "/login", "/register**", "/css/**", "/js/**", "/api/auth/**").permitAll()
-                        // Bổ sung thêm dòng này để Admin có quyền gọi API bác sĩ
+                        .requestMatchers("/", "/login", "/register**", "/css/**", "/js/**", "/api/auth/**", "/error").permitAll()                        // Bổ sung thêm dòng này để Admin có quyền gọi API bác sĩ
                         .requestMatchers("/api/doctors/**").hasAnyRole("ADMIN", "USER") // Tùy logic của bạn, Admin được thêm/xóa                        // Tất cả các yêu cầu khác đều cần xác thực
                         .anyRequest().authenticated()
                 )
