@@ -11,6 +11,9 @@ function AdminPage() {
     const [isEditing, setIsEditing] = useState(false);
 
     const navigate = useNavigate();
+    const [showForm, setShowForm] = useState(false);
+    const [editingDoctorId, setEditingDoctorId] = useState(null);
+    const [doctorForm, setDoctorForm] = useState({ name: '', specialty: '', email: '', phone: '' });
     const token = localStorage.getItem('token');
     const API_BASE = 'https://hopital-web-project.onrender.com/api/admin'; // ⚠️ Thay bằng link backend thật của bạn
 
@@ -44,51 +47,36 @@ function AdminPage() {
     };
 
     // Thêm hoặc Cập nhật Bác sĩ
-    const handleSaveDoctor = (e) => {
+    const handleSaveDoctor = async (e) => {
         e.preventDefault();
-        const method = isEditing ? 'PUT' : 'POST';
-        const url = isEditing ? `${API_BASE}/doctors/${formData.id}` : `${API_BASE}/doctors`;
+        const method = editingDoctorId ? 'PUT' : 'POST';
+        const url = editingDoctorId ? `${API_BASE}/doctors/${editingDoctorId}` : `${API_BASE}/doctors`;
 
-        fetch(url, {
+        await fetch(url, {
             method: method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(formData)
-        })
-            .then(res => {
-                if (!res.ok) throw new Error("Thất bại khi lưu bác sĩ");
-                return res.json();
-            })
-            .then(() => {
-                fetchDoctors();
-                setFormData({ id: null, name: '', specialty: '', email: '', phoneNumber: '' });
-                setIsEditing(false);
-                alert("Lưu thông tin bác sĩ thành công!");
-            })
-            .catch(err => alert(err.message));
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify(doctorForm)
+        });
+        alert('Lưu bác sĩ thành công!');
+        setShowForm(false);
+        setActiveTab(''); setTimeout(() => setActiveTab('doctors'), 0); // Mẹo nhỏ để reload lại danh sách
     };
 
-    // Xóa Bác sĩ
-    const handleDeleteDoctor = (id) => {
-        if (!window.confirm("Bạn có chắc chắn muốn xóa bác sĩ này không?")) return;
-
-        fetch(`${API_BASE}/doctors/${id}`, {
+    // Hàm Xóa Bác sĩ
+    const handleDeleteDoctor = async (id) => {
+        if (!window.confirm('Bạn có chắc chắn muốn xóa bác sĩ này?')) return;
+        await fetch(`${API_BASE}/doctors/${id}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
-        })
-            .then(() => {
-                fetchDoctors();
-                alert("Đã xóa bác sĩ thành công!");
-            })
-            .catch(err => alert("Lỗi khi xóa bác sĩ"));
+        });
+        setActiveTab(''); setTimeout(() => setActiveTab('doctors'), 0);
     };
 
-    // Đưa dữ liệu lên form để sửa
+    // Hàm mở Form điền sẵn dữ liệu để Sửa
     const handleEditClick = (doc) => {
-        setFormData(doc);
-        setIsEditing(true);
+        setEditingDoctorId(doc.id);
+        setDoctorForm({ name: doc.name, specialty: doc.specialty, email: doc.email || '', phone: doc.phone || '' });
+        setShowForm(true);
     };
 
     return (
