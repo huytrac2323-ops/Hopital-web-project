@@ -19,7 +19,7 @@ public class Doctor {
     private String name; // Thêm trường name cho khớp database
 
     @Column(name = "speciality")
-    private String specialty; // Khớp với cột speciality trong DBeaver
+    private String speciality; // Khớp với cột speciality trong DBeaver
 
     @Column(name = "phone_number")
     private String phoneNumber; // Khớp với cột phone_number trong DBeaver

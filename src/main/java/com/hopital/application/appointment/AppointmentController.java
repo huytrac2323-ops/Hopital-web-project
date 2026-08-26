@@ -1,12 +1,8 @@
-package com.hopital.application.controller;
+package com.hopital.application.appointment;
 
-import com.hopital.application.appointment.Appointment;
 import com.hopital.application.doctor.Doctor;
 import com.hopital.application.patient.Patient;
 import com.hopital.application.patient.PatientRepository;
-import com.hopital.application.appointment.AppointmentDTO;
-import com.hopital.application.appointment.AppointmentRequestDTO;
-import com.hopital.application.appointment.AppointmentRepository;
 import com.hopital.application.doctor.DoctorRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
