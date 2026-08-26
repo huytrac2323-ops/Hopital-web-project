@@ -16,8 +16,13 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String speciality;
-    private String phoneNumber;
+    private String name; // Thêm trường name cho khớp database
 
+    @Column(name = "speciality")
+    private String specialty; // Khớp với cột speciality trong DBeaver
+
+    @Column(name = "phone_number")
+    private String phoneNumber; // Khớp với cột phone_number trong DBeaver
+
+    // Đã lược bỏ trường email vì trong database không có cột này
 }

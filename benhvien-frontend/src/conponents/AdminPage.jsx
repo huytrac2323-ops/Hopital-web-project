@@ -2,56 +2,202 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function AdminPage() {
-    const [message, setMessage] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [doctors, setDoctors] = useState([]);
+    const [appointments, setAppointments] = useState([]);
+    const [activeTab, setActiveTab] = useState('doctors'); // 'doctors' hoặc 'appointments'
+
+    // State cho Form thêm/sửa Bác sĩ
+    const [formData, setFormData] = useState({ id: null, name: '', specialty: '', email: '', phoneNumber: '' });
+    const [isEditing, setIsEditing] = useState(false);
+
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');
+    const API_BASE = 'https://hopital-backend-xxxx.onrender.com/api/admin'; // ⚠️ Thay bằng link backend thật của bạn
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
         if (!token) {
-            alert('Vui lòng đăng nhập trước!');
-            return navigate('/login');
+            navigate('/login');
+            return;
         }
+        fetchDoctors();
+        fetchAppointments();
+    }, [token, navigate]);
 
-        // Gọi API Admin để kiểm tra quyền
-        fetch('https://hopital-web-project.onrender.com/api/admin/dashboard', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+    // Lấy danh sách bác sĩ
+    const fetchDoctors = () => {
+        fetch(`${API_BASE}/doctors`, {
+            headers: { 'Authorization': `Bearer ${token}` }
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Bạn không có quyền truy cập trang này!');
-                }
-                return response.text();
-            })
-            .then(data => {
-                setMessage(data);
-                setLoading(false);
-            })
-            .catch(err => {
-                alert(err.message);
-                navigate('/'); // Đá về trang chủ nếu không phải Admin
-            });
-    }, [navigate]);
+            .then(res => res.json())
+            .then(data => setDoctors(data))
+            .catch(err => console.error("Lỗi lấy danh sách bác sĩ:", err));
+    };
 
-    if (loading) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>Đang xác thực quyền Admin...</div>;
+    // Lấy danh sách lịch hẹn
+    const fetchAppointments = () => {
+        fetch(`${API_BASE}/appointments`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        })
+            .then(res => res.json())
+            .then(data => setAppointments(data))
+            .catch(err => console.error("Lỗi lấy danh sách lịch hẹn:", err));
+    };
+
+    // Thêm hoặc Cập nhật Bác sĩ
+    const handleSaveDoctor = (e) => {
+        e.preventDefault();
+        const method = isEditing ? 'PUT' : 'POST';
+        const url = isEditing ? `${API_BASE}/doctors/${formData.id}` : `${API_BASE}/doctors`;
+
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(formData)
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("Thất bại khi lưu bác sĩ");
+                return res.json();
+            })
+            .then(() => {
+                fetchDoctors();
+                setFormData({ id: null, name: '', specialty: '', email: '', phoneNumber: '' });
+                setIsEditing(false);
+                alert("Lưu thông tin bác sĩ thành công!");
+            })
+            .catch(err => alert(err.message));
+    };
+
+    // Xóa Bác sĩ
+    const handleDeleteDoctor = (id) => {
+        if (!window.confirm("Bạn có chắc chắn muốn xóa bác sĩ này không?")) return;
+
+        fetch(`${API_BASE}/doctors/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        })
+            .then(() => {
+                fetchDoctors();
+                alert("Đã xóa bác sĩ thành công!");
+            })
+            .catch(err => alert("Lỗi khi xóa bác sĩ"));
+    };
+
+    // Đưa dữ liệu lên form để sửa
+    const handleEditClick = (doc) => {
+        setFormData(doc);
+        setIsEditing(true);
+    };
 
     return (
-        <div style={{ padding: '30px', color: 'white' }}>
+        <div style={{ padding: '30px', color: 'white', background: '#121212', minHeight: '100vh' }}>
             <h1>🛡️ Trang Quản Trị Hệ Thống (Admin Dashboard)</h1>
-            <p>{message}</p>
-            <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
-                <div style={{ background: '#333', padding: '20px', borderRadius: '8px', flex: 1 }}>
-                    <h3>Quản lý Bác sĩ</h3>
-                    <p>Thêm, sửa, xóa thông tin bác sĩ trong bệnh viện.</p>
-                </div>
-                <div style={{ background: '#333', padding: '20px', borderRadius: '8px', flex: 1 }}>
-                    <h3>Quản lý Lịch hẹn</h3>
-                    <p>Xem toàn bộ lịch hẹn khám bệnh của tất cả bệnh nhân.</p>
-                </div>
+
+            {/* Menu chuyển tab */}
+            <div style={{ margin: '20px 0', display: 'flex', gap: '10px' }}>
+                <button
+                    onClick={() => setActiveTab('doctors')}
+                    style={{ padding: '10px 20px', background: activeTab === 'doctors' ? '#007bff' : '#333', color: 'white', border: 'none', cursor: 'pointer', borderRadius: '5px' }}>
+                    👨‍⚕️ Quản lý Bác sĩ
+                </button>
+                <button
+                    onClick={() => setActiveTab('appointments')}
+                    style={{ padding: '10px 20px', background: activeTab === 'appointments' ? '#007bff' : '#333', color: 'white', border: 'none', cursor: 'pointer', borderRadius: '5px' }}>
+                    📅 Xem Lịch Hẹn
+                </button>
+                <button
+                    onClick={() => navigate('/')}
+                    style={{ marginLeft: 'auto', padding: '10px 20px', background: '#6c757d', color: 'white', border: 'none', cursor: 'pointer', borderRadius: '5px' }}>
+                    🏠 Về Trang Chủ
+                </button>
             </div>
+
+            {/* TAB 1: QUẢN LÝ BÁC SĨ */}
+            {activeTab === 'doctors' && (
+                <div>
+                    <h2>Quản lý danh sách Bác sĩ</h2>
+
+                    {/* Form Thêm / Sửa */}
+                    <form onSubmit={handleSaveDoctor} style={{ background: '#1e1e1e', padding: '20px', borderRadius: '8px', marginBottom: '20px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                        <h3>{isEditing ? 'Sửa thông tin Bác sĩ' : 'Thêm Bác sĩ mới'}</h3>
+                        <div style={{ gridColumn: 'span 2' }}></div>
+                        <input type="text" placeholder="Tên bác sĩ" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required style={{ padding: '10px' }} />
+                        <input type="text" placeholder="Chuyên khoa" value={formData.specialty} onChange={e => setFormData({...formData, specialty: e.target.value})} required style={{ padding: '10px' }} />
+                        <input type="email" placeholder="Email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} required style={{ padding: '10px' }} />
+                        <input type="text" placeholder="Số điện thoại" value={formData.phoneNumber} onChange={e => setFormData({...formData, phoneNumber: e.target.value})} required style={{ padding: '10px' }} />
+                        <div style={{ gridColumn: 'span 2', display: 'flex', gap: '10px' }}>
+                            <button type="submit" style={{ padding: '10px 20px', background: '#28a745', color: 'white', border: 'none', cursor: 'pointer' }}>
+                                {isEditing ? 'Cập nhật' : 'Thêm mới'}
+                            </button>
+                            {isEditing && (
+                                <button type="button" onClick={() => { setIsEditing(false); setFormData({ id: null, name: '', specialty: '', email: '', phoneNumber: '' }); }} style={{ padding: '10px 20px', background: '#6c757d', color: 'white', border: 'none', cursor: 'pointer' }}>
+                                    Hủy
+                                </button>
+                            )}
+                        </div>
+                    </form>
+
+                    {/* Bảng hiển thị Bác sĩ */}
+                    <table style={{ width: '100%', borderCollapse: 'collapse', background: '#1e1e1e' }}>
+                        <thead>
+                        <tr style={{ background: '#333', textAlign: 'left' }}>
+                            <th style={{ padding: '10px' }}>ID</th>
+                            <th style={{ padding: '10px' }}>Tên</th>
+                            <th style={{ padding: '10px' }}>Chuyên khoa</th>
+                            <th style={{ padding: '10px' }}>Email</th>
+                            <th style={{ padding: '10px' }}>Số điện thoại</th>
+                            <th style={{ padding: '10px' }}>Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {doctors.map(doc => (
+                            <tr key={doc.id} style={{ borderBottom: '1px solid #333' }}>
+                                <td style={{ padding: '10px' }}>{doc.id}</td>
+                                <td style={{ padding: '10px' }}>{doc.name}</td>
+                                <td style={{ padding: '10px' }}>{doc.specialty}</td>
+                                <td style={{ padding: '10px' }}>{doc.email}</td>
+                                <td style={{ padding: '10px' }}>{doc.phoneNumber}</td>
+                                <td style={{ padding: '10px' }}>
+                                    <button onClick={() => handleEditClick(doc)} style={{ marginRight: '10px', padding: '5px 10px', background: '#ffc107', border: 'none', cursor: 'pointer' }}>Sửa</button>
+                                    <button onClick={() => handleDeleteDoctor(doc.id)} style={{ padding: '5px 10px', background: '#dc3545', color: 'white', border: 'none', cursor: 'pointer' }}>Xóa</button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+
+            {/* TAB 2: XEM LỊCH HẸN */}
+            {activeTab === 'appointments' && (
+                <div>
+                    <h2>Danh sách Lịch hẹn toàn hệ thống</h2>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', background: '#1e1e1e', marginTop: '20px' }}>
+                        <thead>
+                        <tr style={{ background: '#333', textAlign: 'left' }}>
+                            <th style={{ padding: '10px' }}>ID</th>
+                            <th style={{ padding: '10px' }}>Bệnh nhân</th>
+                            <th style={{ padding: '10px' }}>Bác sĩ khám</th>
+                            <th style={{ padding: '10px' }}>Thời gian</th>
+                            <th style={{ padding: '10px' }}>Triệu chứng / Ghi chú</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {appointments.map(app => (
+                            <tr key={app.id} style={{ borderBottom: '1px solid #333' }}>
+                                <td style={{ padding: '10px' }}>{app.id}</td>
+                                <td style={{ padding: '10px' }}>{app.patientName || app.name || 'N/A'}</td>
+                                <td style={{ padding: '10px' }}>{app.doctorName || app.doctor?.name || 'N/A'}</td>
+                                <td style={{ padding: '10px' }}>{app.appointmentDate || app.date || 'N/A'}</td>
+                                <td style={{ padding: '10px' }}>{app.medicalHistory || app.notes || 'Không có'}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
     );
 }
