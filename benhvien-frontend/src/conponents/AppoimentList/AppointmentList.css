@@ -14,20 +14,20 @@
     max-width: 900px;
 }
 
-.appointment-list h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
+.appointment-list {
+    max-height: 60vh; /* Chiều cao tối đa bằng 60% màn hình */
+    overflow-y: auto; /* Tự động hiện thanh cuộn dọc nếu dữ liệu dài */
+    overflow-x: hidden; /* Tắt thanh cuộn ngang */
+    padding-right: 15px; /* Tạo khoảng trống để thanh cuộn không đè vào chữ */
 }
 
 /* Lưới hiển thị các card lịch hẹn */
 .appointment-grid {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
+    display: grid; /* Chuyển sang dùng Grid để tự động xuống dòng */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 10px 0 20px 0;
-    -webkit-overflow-scrolling: touch;
+    width: 100%;
 }
 
 /* Card cho mỗi lịch hẹn */
@@ -37,10 +37,8 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
     border-left: 5px solid #28a745;
-    width: 320px;
-    flex-shrink: 0;
+    width: 100%; /* Để thẻ tự động co giãn vừa khung Grid thay vì fix cứng 320px */
 }
-
 .appointment-card p {
     margin: 0 0 10px 0;
     color: #444;
@@ -53,4 +51,18 @@
 
 .appointment-card strong {
     color: #333;
+}
+
+.appointment-list::-webkit-scrollbar {
+    width: 8px;
+}
+.appointment-list::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+.appointment-list::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 10px;
+}
+.appointment-list::-webkit-scrollbar-thumb:hover {
+    background: #777;
 }
