@@ -1,0 +1,56 @@
+/* Container chính */
+.appointment-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #f9f9f9;
+}
+
+/* Phần danh sách lịch hẹn */
+.appointment-list {
+    width: 100%;
+    max-width: 900px;
+}
+
+.appointment-list h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Lưới hiển thị các card lịch hẹn */
+.appointment-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 10px 0 20px 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Card cho mỗi lịch hẹn */
+.appointment-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    border-left: 5px solid #28a745;
+    width: 320px;
+    flex-shrink: 0;
+}
+
+.appointment-card p {
+    margin: 0 0 10px 0;
+    color: #444;
+    line-height: 1.5;
+}
+
+.appointment-card p:last-child {
+    margin-bottom: 0;
+}
+
+.appointment-card strong {
+    color: #333;
+}

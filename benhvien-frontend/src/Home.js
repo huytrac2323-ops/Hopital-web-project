@@ -1,19 +1,30 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'; // Bắt buộc phải có dòng này
+import { Link } from 'react-router-dom';
 import './Home.css';
 
 function Home() {
-    const navigate = useNavigate();
-    const isAuthenticated = localStorage.getItem('token');
+    // 1. Khai báo state BÊN TRONG hàm Home
+    const [currentImage, setCurrentImage] = useState(0);
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/login');
-    };
+    // 2. Danh sách ảnh
+    const sliderImages = [
+        "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+    ];
+
+    // 3. Khai báo useEffect BÊN TRONG hàm Home
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentImage((prevIndex) => (prevIndex + 1) % sliderImages.length);
+        }, 4000);
+        return () => clearInterval(timer);
+    }, [sliderImages.length]);
+
+
 
     return (
         <div className="home-wrapper">
-            {/* Khu vực Hero (Giới thiệu chính) */}
             <section className="hero-section">
                 <div className="hero-content">
                     <h1>
@@ -24,35 +35,36 @@ function Home() {
                         Đồng hành cùng sức khỏe của bạn với đội ngũ y bác sĩ hàng đầu và trang thiết bị hiện đại nhất. Đặt lịch khám trực tuyến nhanh chóng, tiện lợi.
                     </p>
                     <div className="hero-actions">
-                        <Link to="/appointments" className="btn btn-primary">
+                        <Link to="/book-appointment" className="btn btn-primary">
                             📅 Đặt Lịch Hẹn Ngay
                         </Link>
-
-                        {/* ⭐ Thêm nút Quản Trị vào đây để dễ bấm */}
-                        <Link to="/admin" className="btn btn-outline" style={{ borderColor: '#ff4d4f', color: '#ff4d4f' }}>
-                            🛡️ Quản Trị Hệ Thống
+                        {/* Thêm nút Outline cho cân đối bố cục */}
+                        <Link to="/services" className="btn btn-outline">
+                            🩺 Tìm Hiểu Dịch Vụ
                         </Link>
-
-                        {isAuthenticated ? (
-                            <button onClick={handleLogout} className="btn btn-outline">
-                                Đăng Xuất
-                            </button>
-                        ) : (
-                            <Link to="/login" className="btn btn-outline">
-                                Đăng Nhập
-                            </Link>
-                        )}
                     </div>
                 </div>
 
-                {/* Khu vực Ảnh minh họa */}
                 <div className="hero-image">
-                    {/* Bạn có thể thay thẻ div này bằng thẻ <img src="..." alt="Hospital" /> thực tế */}
-                    <div className="image-placeholder"></div>
+                    <div className="hero-slider">
+                        {sliderImages.map((img, index) => (
+                            <img
+                                key={index}
+                                src={img}
+                                alt={`SIS Hospital ${index}`}
+                                className={`slider-image ${index === currentImage ? 'active' : ''}`}
+                            />
+                        ))}
+                    </div>
                 </div>
             </section>
 
-            {/* Khu vực Các tính năng/Dịch vụ nổi bật */}
+            {/* Bổ sung tiêu đề cho khu vực tính năng */}
+            <div className="features-header">
+                <h2>Vì Sao Chọn SIS Hospital?</h2>
+                <p>Chúng tôi mang đến dịch vụ y tế chuẩn quốc tế</p>
+            </div>
+
             <section className="features-section">
                 <div className="feature-card">
                     <div className="feature-icon">👨‍⚕️</div>

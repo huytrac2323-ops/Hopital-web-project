@@ -132,7 +132,6 @@ function AdminPage() {
                             <th style={{ padding: '10px' }}>ID</th>
                             <th style={{ padding: '10px' }}>Tên</th>
                             <th style={{ padding: '10px' }}>Chuyên khoa</th>
-                            <th style={{ padding: '10px' }}>Email</th>
                             <th style={{ padding: '10px' }}>Số điện thoại</th>
                             <th style={{ padding: '10px' }}>Thao tác</th>
                         </tr>
@@ -142,8 +141,7 @@ function AdminPage() {
                             <tr key={doc.id} style={{ borderBottom: '1px solid #333' }}>
                                 <td style={{ padding: '10px' }}>{doc.id}</td>
                                 <td style={{ padding: '10px' }}>{doc.name}</td>
-                                <td style={{ padding: '10px' }}>{doc.specialty}</td>
-                                <td style={{ padding: '10px' }}>{doc.email}</td>
+                                <td style={{ padding: '10px' }}>{doc.speciality}</td>
                                 <td style={{ padding: '10px' }}>{doc.phoneNumber}</td>
                                 <td style={{ padding: '10px' }}>
                                     <button onClick={() => handleEditClick(doc)} style={{ marginRight: '10px', padding: '5px 10px', background: '#ffc107', border: 'none', cursor: 'pointer' }}>Sửa</button>

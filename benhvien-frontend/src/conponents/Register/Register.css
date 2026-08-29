@@ -1,13 +1,23 @@
-/* Bao bọc toàn bộ trang đăng ký */
+/* Vùng chứa bao phủ toàn bộ khoảng trống của trang */
 .register-wrapper {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f8fafc; /* Nền xám nhạt đồng bộ */
-    padding: 2rem 1rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    justify-content: center;  /* Căn giữa form theo chiều ngang */
+    align-items: center;      /* Căn giữa form theo chiều dọc */
+    min-height: 70vh;         /* Đảm bảo chiếm đủ chiều cao màn hình để đẩy form ra giữa */
+    width: 100%;
+    padding: 2rem;
 }
+
+/* Định dạng hộp form đăng ký */
+.register-box {
+    width: 100%;
+    max-width: 450px;         /* Giữ form vừa vặn, không bị giãn to */
+    background-color: #1c1c1c; /* Màu nền tối cho hộp form giống trong hình */
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Tạo bóng đổ nhẹ để form nổi bật lên */
+}
+
 
 /* Khung chính của form */
 .register-container {

@@ -1,9 +1,12 @@
 package com.hopital.application.appointment;
 
+
 import com.hopital.application.doctor.Doctor;
+import com.hopital.application.dto.AppointmentRequest;
 import com.hopital.application.patient.Patient;
 import com.hopital.application.patient.PatientRepository;
 import com.hopital.application.doctor.DoctorRepository;
+import com.hopital.application.service.AppointmentService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,68 +30,87 @@ public class AppointmentController {
     private PatientRepository patientRepository;
     @Autowired
     private DoctorRepository doctorRepository;
+    @Autowired
+    private AppointmentService appointmentService;
 
     @GetMapping
-    public List<AppointmentDTO> getAllAppointments(Principal principal) {
-        // Tìm bệnh nhân dựa trên tên đăng nhập của người dùng
-        Patient patient = patientRepository.findByName(principal.getName())
-                .orElseThrow(() -> new UsernameNotFoundException("Patient not found with name: " + principal.getName()));
+    public ResponseEntity<?> getAllAppointments(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Chưa đăng nhập!");
+        }
 
-        // Lấy danh sách lịch hẹn của bệnh nhân đó
-        return appointmentRepository.findByPatient(patient).stream().map(appointment -> {
+        // Kiểm tra xem user hiện tại có quyền ADMIN hay không thông qua Spring Security
+        boolean isAdmin = org.springframework.security.core.context.SecurityContextHolder.getContext()
+                .getAuthentication().getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN") || auth.getAuthority().equals("ADMIN"));
+
+        List<Appointment> appointments;
+
+        if (isAdmin) {
+            // Admin được xem toàn bộ lịch hẹn của hệ thống
+            appointments = appointmentRepository.findAll();
+        } else {
+            // User thường chỉ xem lịch hẹn của chính họ
+            Patient patient = patientRepository.findByName(principal.getName()).orElse(null);
+            if (patient == null) {
+                return ResponseEntity.ok(List.of());
+            }
+            appointments = appointmentRepository.findByPatient(patient);
+        }
+
+        // Chuyển đổi sang DTO và trả về
+        List<AppointmentDTO> result = appointments.stream().map(appointment -> {
             Doctor doctor = appointment.getDoctor();
+            Patient p = appointment.getPatient();
             return new AppointmentDTO(
                     appointment.getId(),
-                    patient.getName(),
+                    p != null ? p.getName() : "N/A",
                     doctor != null ? doctor.getName() : "N/A",
                     doctor != null ? doctor.getSpeciality() : "N/A",
                     appointment.getAppointmentDate(),
                     appointment.getReason()
             );
         }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping
-    @Transactional
-    public ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO, Principal principal) {
-        // 1. Tìm hoặc tạo mới bệnh nhân
-        Optional<Patient> patientOptional = patientRepository.findByName(principal.getName());
-        Patient patient;
-        if (patientOptional.isPresent()) {
-            patient = patientOptional.get();
-        } else {
-            Patient newPatient = new Patient();
-            newPatient.setName(principal.getName());
-            patient = patientRepository.save(newPatient);
+    public ResponseEntity<?> createAppointment(@RequestBody AppointmentRequest request, Principal principal) {
+        try {
+            // 1. Kiểm tra xem người dùng đã đăng nhập chưa
+            if (principal == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Chưa đăng nhập!");
+            }
+
+            // 2. Tìm hoặc tự động tạo thông tin Patient khớp với tên tài khoản đang đăng nhập
+            Patient patient = patientRepository.findByName(principal.getName())
+                    .orElseGet(() -> {
+                        Patient newPatient = new Patient();
+                        newPatient.setName(principal.getName());
+                        return patientRepository.save(newPatient);
+                    });
+
+            // 3. Tìm bác sĩ theo ID truyền lên từ form đặt lịch
+            Doctor doctor = doctorRepository.findById(request.getDoctorId())
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy bác sĩ với ID: " + request.getDoctorId()));
+
+            // 4. Khởi tạo và gán đúng đối tượng Patient vừa tìm thấy vào lịch hẹn
+            Appointment newAppointment = new Appointment();
+            newAppointment.setPatient(patient); // Gắn đúng ID của user hiện tại thay vì số 18 cố định!
+            newAppointment.setDoctor(doctor);
+            newAppointment.setAppointmentDate(request.getAppointmentDate());
+            newAppointment.setReason(request.getReason());
+
+            // 5. Lưu vào CSDL
+            Appointment savedAppointment = appointmentRepository.save(newAppointment);
+
+            return ResponseEntity.ok(savedAppointment);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("Lỗi hệ thống: " + e.getMessage());
         }
-
-        // 2. Tìm bác sĩ
-        Optional<Doctor> doctorOptional = doctorRepository.findById(appointmentRequestDTO.getDoctorId());
-        if (doctorOptional.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Doctor doctor = doctorOptional.get();
-
-        // 3. Tạo lịch hẹn mới
-        Appointment newAppointment = new Appointment();
-        newAppointment.setPatient(patient);
-        newAppointment.setDoctor(doctor);
-        newAppointment.setAppointmentDate(appointmentRequestDTO.getAppointmentDate());
-        newAppointment.setReason(appointmentRequestDTO.getReason());
-
-        // 4. Lưu lịch hẹn
-        Appointment savedAppointment = appointmentRepository.save(newAppointment);
-
-        // 5. Chuyển đổi sang DTO để trả về
-        AppointmentDTO appointmentDTO = new AppointmentDTO(
-                savedAppointment.getId(),
-                patient.getName(),
-                doctor.getName(),
-                doctor.getSpeciality(),
-                savedAppointment.getAppointmentDate(),
-                savedAppointment.getReason()
-        );
-
-        return ResponseEntity.ok(appointmentDTO);
     }
+
+
 }

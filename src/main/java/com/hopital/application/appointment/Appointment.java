@@ -35,10 +35,16 @@ public class Appointment {
         this.reason = reason;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;
     }
+
+    private String status;
 
     public void setId(Long id) {
         this.id = id;
@@ -75,4 +81,5 @@ public class Appointment {
     public void setReason(String reason) {
         this.reason = reason;
     }
+
 }

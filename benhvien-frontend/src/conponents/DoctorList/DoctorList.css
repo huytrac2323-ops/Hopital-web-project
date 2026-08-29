@@ -1,0 +1,86 @@
+.doctor-page-container {
+    padding: 20px 40px;
+    color: white;
+}
+
+.page-title {
+    text-align: center;
+    color: #38bdf8;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+.doctor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.doctor-card {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.doctor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    border-color: #0ea5e9;
+}
+
+.doctor-avatar {
+    font-size: 4rem;
+    margin-bottom: 15px;
+}
+
+.doctor-card h3 {
+    margin: 0 0 10px 0;
+    color: #f8fafc;
+    font-size: 1.3rem;
+}
+
+.specialty-tag {
+    display: inline-block;
+    background-color: rgba(14, 165, 233, 0.2);
+    color: #38bdf8;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.doctor-info {
+    text-align: left;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.btn-book-direct {
+    display: block;
+    background-color: #0ea5e9;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-book-direct:hover {
+    background-color: #0284c7;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px;
+    color: #94a3b8;
+    font-size: 1.1rem;
+}

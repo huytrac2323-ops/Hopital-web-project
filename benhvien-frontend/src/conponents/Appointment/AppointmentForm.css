@@ -1,0 +1,247 @@
+/* Bao bọc toàn bộ form - Đổi sang màu xám đen nổi bật trên nền tổng thể */
+.booking-container {
+    max-width: 650px;
+    margin: 40px auto;
+    background: #252836;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #ffffff;
+}
+
+.booking-container h2 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* Các nhóm nhập liệu */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #a0aaba; /* Màu xám nhạt cho label để không bị chói */
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+/* Ô nhập liệu */
+.form-group input,
+.form-group textarea {
+    padding: 12px 15px;
+    background-color: #1f1f2b; /* Nền input tối hơn nền form tạo chiều sâu */
+    border: 1px solid #3f4354;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #6b7280; /* Màu chữ gợi ý mờ đi */
+}
+
+/* Hiệu ứng khi click vào ô nhập liệu */
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25);
+}
+
+.form-group input:disabled {
+    background-color: #1a1a24;
+    color: #6b7280;
+    cursor: not-allowed;
+    border-color: #2a2d3d;
+}
+
+/* Thông báo lỗi */
+.error-text {
+    color: #f87171; /* Đỏ sáng dễ nhìn trên nền tối */
+    font-size: 0.85rem;
+    margin-top: 6px;
+}
+
+.text-info {
+    color: #38bdf8;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    font-style: italic;
+}
+
+/* Huy hiệu trạng thái bệnh nhân cũ/mới */
+.status-badge {
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.status-badge.existing {
+    background-color: rgba(22, 163, 74, 0.15);
+    color: #4ade80;
+    border: 1px solid #16a34a;
+}
+
+.status-badge.new {
+    background-color: rgba(2, 132, 199, 0.15);
+    color: #38bdf8;
+    border: 1px solid #0284c7;
+}
+
+/* Nút Submit */
+.btn-submit {
+    width: 100%;
+    padding: 14px;
+    background-color: #0ea5e9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-submit:hover {
+    background-color: #0284c7;
+    transform: translateY(-2px); /* Hiệu ứng nổi nhẹ khi di chuột */
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+}/* Bao bọc toàn bộ form - Đổi sang màu xám đen nổi bật trên nền tổng thể */
+.booking-container {
+    max-width: 650px;
+    margin: 40px auto;
+    background: #252836;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #ffffff;
+}
+
+.booking-container h2 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* Các nhóm nhập liệu */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #a0aaba; /* Màu xám nhạt cho label để không bị chói */
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+/* Ô nhập liệu */
+.form-group input,
+.form-group textarea {
+    padding: 12px 15px;
+    background-color: #1f1f2b; /* Nền input tối hơn nền form tạo chiều sâu */
+    border: 1px solid #3f4354;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #6b7280; /* Màu chữ gợi ý mờ đi */
+}
+
+/* Hiệu ứng khi click vào ô nhập liệu */
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25);
+}
+
+.form-group input:disabled {
+    background-color: #1a1a24;
+    color: #6b7280;
+    cursor: not-allowed;
+    border-color: #2a2d3d;
+}
+
+/* Thông báo lỗi */
+.error-text {
+    color: #f87171; /* Đỏ sáng dễ nhìn trên nền tối */
+    font-size: 0.85rem;
+    margin-top: 6px;
+}
+
+.text-info {
+    color: #38bdf8;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    font-style: italic;
+}
+
+/* Huy hiệu trạng thái bệnh nhân cũ/mới */
+.status-badge {
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.status-badge.existing {
+    background-color: rgba(22, 163, 74, 0.15);
+    color: #4ade80;
+    border: 1px solid #16a34a;
+}
+
+.status-badge.new {
+    background-color: rgba(2, 132, 199, 0.15);
+    color: #38bdf8;
+    border: 1px solid #0284c7;
+}
+
+/* Nút Submit */
+.btn-submit {
+    width: 100%;
+    padding: 14px;
+    background-color: #0ea5e9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-submit:hover {
+    background-color: #0284c7;
+    transform: translateY(-2px); /* Hiệu ứng nổi nhẹ khi di chuột */
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+}

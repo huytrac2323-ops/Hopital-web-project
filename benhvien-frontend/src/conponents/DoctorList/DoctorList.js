@@ -1,45 +1,70 @@
 import React, { useState, useEffect } from 'react';
-import '../PatientList/PatientList.css'; // Tái sử dụng CSS từ PatientList cho giao diện tương đồng
-import { getAuthHeaders } from '../../utils/auth'; // Import a helper to get auth headers
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
+import './DoctorList.css'; // File CSS ở bước 2
 
-// Component DoctorList
 function DoctorList() {
-    // Sử dụng 'useState' để lưu trữ danh sách bác sĩ
     const [doctors, setDoctors] = useState([]);
-    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
 
-    // Sử dụng 'useEffect' để tải dữ liệu khi component được render lần đầu
+    // Lấy tham số specialty từ URL (nếu có)
+    const [searchParams] = useSearchParams();
+    const specialtyParam = searchParams.get('specialty');
+
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/api/doctors`, { headers: getAuthHeaders() }) // Gọi API từ backend Spring Boot
-            .then(response => {
-                if (response.status === 401) {
-                    navigate('/login');
-                    return;
-                }
-                return response.json();
-            })
+        setIsLoading(true);
+        // Tự động nhận diện domain (Localhost hoặc Render)
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+
+        fetch(`${apiUrl}/api/doctors`)
+            .then(res => res.json())
             .then(data => {
-                if (data) {
-                    setDoctors(data);
+                if (Array.isArray(data)) {
+                    // Nếu có tham số chuyên khoa trên URL -> Lọc danh sách
+                    if (specialtyParam) {
+                        const filtered = data.filter(doc => doc.speciality === specialtyParam);
+                        setDoctors(filtered);
+                    } else {
+                        // Nếu không có tham số (Click vào chữ Đội Ngũ Bác Sĩ) -> Hiển thị tất cả
+                        setDoctors(data);
+                    }
                 }
             })
-            .catch(error => console.error("Error fetching doctors:", error));
-    }, [navigate]); // Mảng rỗng `[]` đảm bảo useEffect chỉ chạy 1 lần
+            .catch(err => console.error("Lỗi tải danh sách bác sĩ:", err))
+            .finally(() => setIsLoading(false));
+    }, [specialtyParam]); // useEffect sẽ chạy lại mỗi khi bấm vào chuyên khoa khác
 
     return (
-        // Tái sử dụng các class CSS từ PatientList để có giao diện nhất quán
-        <div className="patient-list-container">
-            <h1>Danh Sách Bác Sĩ</h1>
-            <div className="patient-grid">
-                {Array.isArray(doctors) && doctors.map(doctor => (
-                    <div key={doctor.id} className="patient-card">
-                        <h2>{doctor.name}</h2>
-                        <p><strong>Chuyên khoa:</strong> {doctor.speciality}</p>
-                        <p><strong>Số điện thoại:</strong> {doctor.phoneNumber}</p>
-                    </div>
-                ))}
-            </div>
+        <div className="doctor-page-container">
+            <h2 className="page-title">
+                {specialtyParam ? `Chuyên khoa: ${specialtyParam}` : 'Tất Cả Bác Sĩ'}
+            </h2>
+
+            {isLoading ? (
+                <p>Đang tải danh sách bác sĩ...</p>
+            ) : (
+                <div className="doctor-grid">
+                    {doctors.length > 0 ? (
+                        doctors.map(doc => (
+                            <div key={doc.id} className="doctor-card">
+                                <div className="doctor-avatar">👨‍⚕️</div>
+                                <h3>{doc.name}</h3>
+                                <p className="specialty-tag">{doc.speciality}</p>
+                                <div className="doctor-info">
+                                    <p><strong>Điện thoại:</strong> {doc.phone || 'Đang cập nhật'}</p>
+                                    <p><strong>Kinh nghiệm:</strong> {doc.experience || '5 năm'} trong nghề</p>
+                                </div>
+                                <Link to="/book-appointment" className="btn-book-direct">
+                                    Đặt Lịch Khám
+                                </Link>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="empty-state">
+                            <p>Hiện chưa có bác sĩ nào thuộc chuyên khoa này.</p>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }

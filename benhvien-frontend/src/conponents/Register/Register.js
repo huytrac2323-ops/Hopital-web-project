@@ -1,18 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Thêm import này
 import '../LoginForm/Login.css'; // Assuming Register will share similar styles
+import './Register.css'; // Nhớ import file CSS
 
 function Register() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const navigate = useNavigate(); // 2. Khởi tạo hàm navigate ở đây
 
-    const handleRegister = (e) => {
+
+    const handleRegister = async (e) => {
         e.preventDefault();
-        // Handle registration logic here
-        console.log('Username:', username);
-        console.log('Password:', password);
-        console.log('Email:', email);
+
+        const userData = { username, email, password };
+        const apiUrl = window.location.hostname === 'localhost'
+            ? 'http://localhost:8080'
+            : 'https://hopital-web-project.onrender.com';
+        try {
+            const response = await fetch(`${apiUrl}/api/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
+            });
+
+            if (response.ok) {
+                alert('Đăng ký thành công!');
+                navigate('/login');
+            } else {
+                alert('Đăng ký thất bại!');
+            }
+        } catch (error) {
+            console.error('Lỗi kết nối:', error);
+        }
     };
+
+
 
     return (
         <div className="login-container">

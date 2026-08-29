@@ -1,178 +1,106 @@
-/* Reset & Bao bọc tổng thể */
-.home-wrapper {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
-    background-color: #f8fafc; /* Nền xám rất nhạt, sạch sẽ */
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
-}
-
-/* ================== HERO SECTION ================== */
-.hero-section {
-    display: flex;
-    flex-direction: column-reverse; /* Ở màn hình nhỏ, chữ xếp dưới ảnh */
-    align-items: center;
-    justify-content: center;
-    max-width: 1200px;
-    width: 100%;
-    padding: 4rem 2rem;
-    gap: 3rem;
-}
-
-@media (min-width: 768px) {
-    .hero-section {
-        flex-direction: row; /* Ở màn hình lớn, chữ và ảnh nằm ngang */
-        justify-content: space-between;
-        padding: 6rem 2rem;
-    }
-}
-
-.hero-content {
-    flex: 1;
-    max-width: 600px;
-}
-
-.hero-content h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    line-height: 1.2;
-    color: #1e293b;
-    margin-bottom: 1.5rem;
-}
-
+/* Tạo màu chữ Gradient hiện đại */
 .hero-content .highlight {
-    color: #0ea5e9; /* Xanh dương chủ đạo ngành y tế */
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
 }
 
-.hero-content p {
-    font-size: 1.1rem;
-    color: #64748b;
-    margin-bottom: 2.5rem;
-    line-height: 1.6;
-}
-
-.hero-actions {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-/* ================== BUTTONS ================== */
-.btn {
-    padding: 0.8rem 1.8rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-primary {
-    background-color: #0ea5e9;
-    color: white;
-    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
-}
-
-.btn-primary:hover {
-    background-color: #0284c7;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
-}
-
-.btn-outline {
-    background-color: transparent;
-    color: #0ea5e9;
-    border: 2px solid #0ea5e9;
-}
-
-.btn-outline:hover {
-    background-color: #f0f9ff;
-    transform: translateY(-3px);
-}
-
-/* ================== HERO IMAGE ================== */
-.hero-image {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
+/* Thêm hoạt ảnh lơ lửng cho ảnh Hero */
 .image-placeholder {
     width: 100%;
     max-width: 450px;
     aspect-ratio: 4/3;
     background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
     border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
     position: relative;
     overflow: hidden;
+    animation: float 6s ease-in-out infinite; /* Kích hoạt hiệu ứng */
 }
 
-/* Biểu tượng giả lập thay cho ảnh thật */
-.image-placeholder::after {
-    content: "🏥";
-    font-size: 6rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.6;
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
 }
 
-/* ================== FEATURES SECTION ================== */
-.features-section {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    width: 100%;
-    padding: 0 2rem 4rem 2rem;
+/* Tiêu đề phần Features */
+.features-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 0 2rem;
 }
 
+.features-header h2 {
+    font-size: 2.2rem;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.features-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+/* Nâng cấp hiệu ứng Card khi Hover */
 .feature-card {
     background: white;
     padding: 2.5rem 1.5rem;
     border-radius: 16px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f1f5f9; /* Thêm viền mỏng */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Hover nảy mềm mại */
 }
 
 .feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(14, 165, 233, 0.15); /* Đổi màu bóng sang xanh */
+    border-color: #e0f2fe;
+}
+/* ================== KHUNG ẢNH CHẠY TỰ ĐỘNG (SLIDER) ================== */
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
 }
 
-.feature-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-    background: #f0f9ff;
-    width: 80px;
-    height: 80px;
-    line-height: 80px;
-    border-radius: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    color: #0ea5e9;
+/* Khung chứa ảnh chạy */
+.hero-slider {
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 4/3;
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
+    border: 1px solid #334155;
+    animation: float 6s ease-in-out infinite;
 }
 
-.feature-card h3 {
-    color: #1e293b;
-    margin-bottom: 0.75rem;
-    font-size: 1.25rem;
-    font-weight: 700;
+/* Định dạng từng tấm ảnh */
+.slider-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+    transform: scale(1.05); /* Phóng to nhẹ khi đang ẩn */
 }
 
-.feature-card p {
-    color: #64748b;
-    font-size: 0.95rem;
-    line-height: 1.6;
+/* Ảnh nào đang active thì hiển thị rõ nét */
+.slider-image.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
 }

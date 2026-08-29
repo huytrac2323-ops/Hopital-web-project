@@ -12,7 +12,11 @@ function Login({ onLoginSuccess }) {
         e.preventDefault();
         setError('');
 
-        fetch(`https://hopital-web-project.onrender.com/api/auth/login`, {
+        const apiUrl = window.location.hostname === 'localhost'
+            ? 'http://localhost:8080'
+            : 'https://hopital-web-project.onrender.com';
+
+        fetch(`${apiUrl}/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -28,18 +32,18 @@ function Login({ onLoginSuccess }) {
                 });
             })
             .then(data => {
-                // Kiểm tra cả 2 trường hợp phổ biến: tên là accessToken hoặc tên là token
                 const token = data.accessToken || data.token;
 
                 if (token) {
                     localStorage.setItem('token', token);
+                    const savedName = data.username || data.name || usernameOrEmail;
+                    localStorage.setItem('username', savedName);
                     console.log('Login successful');
                     if (onLoginSuccess) {
                         onLoginSuccess();
                     }
                     navigate('/appointments');
                 } else {
-                    // Nếu muốn biết chính xác data trả về gì, bạn có thể log nó ra đây
                     console.log("Dữ liệu thực tế Backend trả về:", data);
                     throw new Error('Không nhận được token xác thực từ server.');
                 }
@@ -48,19 +52,18 @@ function Login({ onLoginSuccess }) {
                 console.error('Login request error:', error);
                 setError(error.message || 'Đã xảy ra lỗi kết nối. Vui lòng thử lại.');
             });
+
     };
 
     return (
         <div className="login-wrapper">
             <div className="login-container">
-                {/* Phần Header của Form */}
                 <div className="login-header">
                     <h2>Đăng Nhập</h2>
                     <p>Chào mừng bạn quay lại hệ thống</p>
                 </div>
 
                 <form className="login-form" onSubmit={handleLogin}>
-                    {/* Hiển thị lỗi có style rõ ràng hơn */}
                     {error && <div className="error-message">⚠️ {error}</div>}
 
                     <div className="form-group">
@@ -89,7 +92,6 @@ function Login({ onLoginSuccess }) {
 
                     <button type="submit" className="login-button">Đăng Nhập</button>
 
-                    {/* Phần Footer nhỏ để điều hướng */}
                     <div className="login-footer">
                         <Link to="/" className="back-link">← Quay lại Trang Chủ</Link>
                     </div>

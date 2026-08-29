@@ -37,4 +37,5 @@ public class Patient {
     private String phoneNumber;
     private String email; // Thêm trường email
     private String medicalHistory; // Thêm trường lịch sử bệnh án
+    private String identityNumber; // Map với cột 'identity_number' vừa thêm
 }
