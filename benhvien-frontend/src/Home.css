@@ -1,77 +1,51 @@
-/* Tạo màu chữ Gradient hiện đại */
-.hero-content .highlight {
-    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 800;
+/* ================== KHU VỰC HERO (TRÊN CÙNG) ================== */
+.hero-section {
+    display: flex; /* Chia cột ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: space-between;
+    gap: 3rem;
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* Thêm hoạt ảnh lơ lửng cho ảnh Hero */
-.image-placeholder {
-    width: 100%;
-    max-width: 450px;
-    aspect-ratio: 4/3;
-    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-    border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
-    position: relative;
-    overflow: hidden;
-    animation: float 6s ease-in-out infinite; /* Kích hoạt hiệu ứng */
+/* Phần nội dung chữ bên trái */
+.hero-content {
+    flex: 1; /* Chiếm 1 nửa không gian */
+    max-width: 50%;
 }
 
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0px); }
+.hero-content h1 {
+    font-size: 3rem;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
 }
 
-/* Tiêu đề phần Features */
-.features-header {
-    text-align: center;
-    margin-bottom: 3rem;
-    padding: 0 2rem;
-}
-
-.features-header h2 {
-    font-size: 2.2rem;
-    color: #1e293b;
-    margin-bottom: 0.5rem;
-}
-
-.features-header p {
-    color: #64748b;
+.hero-content p {
     font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #cbd5e1;
 }
 
-/* Nâng cấp hiệu ứng Card khi Hover */
-.feature-card {
-    background: white;
-    padding: 2.5rem 1.5rem;
-    border-radius: 16px;
-    border: 1px solid #f1f5f9; /* Thêm viền mỏng */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-    text-align: center;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Hover nảy mềm mại */
+.hero-actions {
+    display: flex;
+    gap: 1rem;
 }
 
-.feature-card:hover {
-    transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 20px 25px -5px rgba(14, 165, 233, 0.15); /* Đổi màu bóng sang xanh */
-    border-color: #e0f2fe;
-}
 /* ================== KHUNG ẢNH CHẠY TỰ ĐỘNG (SLIDER) ================== */
 .hero-image {
-    flex: 1;
+    flex: 1; /* Chiếm 1 nửa không gian còn lại */
     display: flex;
     justify-content: flex-end;
 }
 
-/* Khung chứa ảnh chạy */
 .hero-slider {
     width: 100%;
     max-width: 480px;
     aspect-ratio: 4/3;
-    position: relative;
+    position: relative; /* Bắt buộc để giữ các ảnh không bị văng ra ngoài */
     border-radius: 24px;
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
@@ -81,15 +55,15 @@
 
 /* Định dạng từng tấm ảnh */
 .slider-image {
-    position: absolute;
+    position: absolute; /* Bắt buộc: Xếp chồng các ảnh lên cùng 1 vị trí */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0;
+    opacity: 0; /* Ẩn toàn bộ ảnh mặc định */
     transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
-    transform: scale(1.05); /* Phóng to nhẹ khi đang ẩn */
+    transform: scale(1.05);
 }
 
 /* Ảnh nào đang active thì hiển thị rõ nét */
@@ -98,9 +72,103 @@
     transform: scale(1);
     z-index: 10;
 }
+/* ================== BÀI VIẾT VỀ CHÚNG TÔI ================== */
+.about-article {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+    padding: 5rem 2rem;
+    background-color: #ffffff;
+    margin-top: 2rem;
+    border-top: 1px solid #f1f5f9;
+}
 
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0px); }
+.article-content {
+    flex: 1;
+    max-width: 650px;
+}
+
+.article-badge {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background-color: #e0f2fe;
+    color: #0284c7;
+    font-weight: 700;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.article-content h2 {
+    font-size: 2.2rem;
+    color: #0f172a;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.article-content p {
+    color: #475569;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+    text-align: justify;
+}
+
+.article-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-item strong {
+    font-size: 2.5rem;
+    color: #0ea5e9;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.stat-item span {
+    color: #64748b;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.article-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.article-image img {
+    width: 100%;
+    max-width: 550px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+    aspect-ratio: 4/5; /* Tạo khung hình dọc chuẩn */
+}
+
+/* Hiển thị trên điện thoại */
+@media (max-width: 768px) {
+    .about-article {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 3rem 1.5rem;
+    }
+
+    .article-stats {
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
 }

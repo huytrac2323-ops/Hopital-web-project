@@ -104,15 +104,23 @@ function Layout({ children }) {
                     </div>
                 </header>
 
-                {/* 2. KHUNG BANNER HÌNH ẢNH LỚN */}
+                {/* 2. KHUNG BANNER HÌNH ẢNH CHẠY VÀ CHỮ NỔI */}
                 <div className="main-banner">
-                    <div className="banner-content">
+                    {/* Lớp hình ảnh chạy nền */}
+                    <div className="banner-slider">
+                        <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=1200&auto=format&fit=crop" alt="Bác sĩ 1" />
+                        <img src="https://images.pexels.com/photos/3845129/pexels-photo-3845129.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Bác sĩ 2" />
+                        <img src="https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Bác sĩ 3" />
+                        <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=1200&auto=format&fit=crop" alt="Bác sĩ 1" />
+                    </div>
+
+                    {/* Lớp chữ tĩnh nổi lên trên */}
+                    <div className="banner-overlay-content">
                         <h1>Gói khám Tầm soát<br />CHUYÊN KHOA TIÊU HÓA</h1>
                         <p>Chỉ có: <strong>1.880.000đ</strong></p>
                         <span className="banner-hotline">Liên hệ Hotline (028) 7102 0303</span>
                     </div>
                 </div>
-
                 {/* Nội dung trang */}
                 <main className="page-content">
                     {children}
