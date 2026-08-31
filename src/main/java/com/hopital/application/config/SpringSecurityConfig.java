@@ -63,17 +63,18 @@ public class SpringSecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Áp dụng cấu hình CORS
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(HttpMethod.GET, "/api/doctors").permitAll() // Thêm dòng này
-                        // Cho phép tất cả các yêu cầu OPTIONS
+                        // Cho phép tất cả mọi người xem danh sách bác sĩ mà không cần phân quyền rườm rà
+                        .requestMatchers(HttpMethod.GET, "/api/doctors/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
+                        // Chỉ Admin mới có quyền thêm/sửa/xóa bác sĩ (POST, PUT, DELETE)
+                        .requestMatchers(HttpMethod.POST, "/api/doctors/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/doctors/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/doctors/**").hasRole("ADMIN")
 
-                        // ⭐ THÊM DÒNG NÀY: Chỉ tài khoản có quyền ADMIN mới được gọi các API /api/admin/**
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        // Cho phép tất cả người dùng truy cập các trang này
-                        .requestMatchers("/", "/login", "/register**", "/css/**", "/js/**", "/api/auth/**", "/error").permitAll()                        // Bổ sung thêm dòng này để Admin có quyền gọi API bác sĩ
-                        .requestMatchers("/api/doctors/**").hasAnyRole("ADMIN", "USER") // Tùy logic của bạn, Admin được thêm/xóa                        // Tất cả các yêu cầu khác đều cần xác thực
+                        .requestMatchers("/", "/login", "/register**", "/css/**", "/js/**", "/api/auth/**", "/error").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
