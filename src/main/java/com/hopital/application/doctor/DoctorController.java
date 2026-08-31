@@ -6,16 +6,12 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/doctors")
-@CrossOrigin(origins = "https://hopital-frontend-71bc.onrender.com") // Cấu hình CORS của bạn
 public class DoctorController {
 
-
-    // (Giả sử bạn đã có Service và Repository)
     @Autowired
     private DoctorService doctorService;
 
-    // 1. API Lấy danh sách (Bạn có thể đã có)
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<?> getAllDoctors() {
         return ResponseEntity.ok(doctorService.findAll());
     }
