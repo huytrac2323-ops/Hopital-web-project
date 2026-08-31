@@ -112,14 +112,12 @@ function AppointmentForm() {
     // Lấy danh sách bác sĩ
     useEffect(() => {
         fetch(`${API_URL}/doctors`, {
-            headers: getAuthHeaders()
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                ...getAuthHeaders() // Đảm bảo hàm này lấy đúng 'Authorization': 'Bearer ' + token từ localStorage
+            }
         })
-            .then(res => res.json())
-            .then(data => {
-                if (Array.isArray(data)) {
-                    setDoctors(data);
-                }
-            })
             .catch(err => console.error("Lỗi tải danh sách bác sĩ:", err));
     }, []);
 
