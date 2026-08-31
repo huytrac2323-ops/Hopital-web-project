@@ -2,6 +2,10 @@ import React, {useEffect, useState} from 'react';
 import './AppointmentForm.css'; // File CSS tự tạo thêm để làm đẹp form
 import { getAuthHeaders } from '../../utils/auth';
 
+// TỰ ĐỘNG CHUYỂN ĐỔI LINK API: Dùng localhost khi chạy dưới máy tính, hoặc link render khi deploy online
+const API_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:8080/api'
+    : 'https://<ten-backend-cua-ban>.onrender.com/api'; // Thay link backend thực tế của bạn vào đây
 
 function AppointmentForm() {
     const [formData, setFormData] = useState({
@@ -15,14 +19,13 @@ function AppointmentForm() {
     const [errors, setErrors] = useState({});
     const [patientStatus, setPatientStatus] = useState(null); // 'NEW' hoặc 'EXISTING'
     const [isLoading, setIsLoading] = useState(false);
-    const [doctors, setDoctors] = useState([]); // Khai báo state l
+    const [doctors, setDoctors] = useState([]);
     const [appointmentDate, setAppointmentDate] = useState('');
 
     // Xử lý thay đổi dữ liệu trong form
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-        // Xóa lỗi khi người dùng bắt đầu gõ lại
         if (errors[name]) {
             setErrors({ ...errors, [name]: '' });
         }
@@ -34,8 +37,7 @@ function AppointmentForm() {
 
         setIsLoading(true);
         try {
-            // ĐÃ SỬA: Đính kèm headers chứa Token xác thực
-            const response = await fetch(`http://localhost:8080/api/patients/check?cccd=${formData.identityNumber}`, {
+            const response = await fetch(`${API_URL}/patients/check?cccd=${formData.identityNumber}`, {
                 method: 'GET',
                 headers: getAuthHeaders()
             });
@@ -61,11 +63,12 @@ function AppointmentForm() {
             setIsLoading(false);
         }
     };
+
     // Hàm Validate dữ liệu trước khi gửi
     const validateForm = () => {
         let newErrors = {};
-        const phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/; // Định dạng SĐT Việt Nam
-        const cccdRegex = /^[0-9]{9,12}$/; // CCCD từ 9 đến 12 số
+        const phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+        const cccdRegex = /^[0-9]{9,12}$/;
 
         if (!formData.fullName.trim()) newErrors.fullName = "Vui lòng nhập họ và tên";
         if (!phoneRegex.test(formData.phone)) newErrors.phone = "Số điện thoại không hợp lệ";
@@ -74,7 +77,7 @@ function AppointmentForm() {
         if (!formData.doctorId) newErrors.doctorId = "Vui lòng chọn bác sĩ khám";
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0; // Trả về true nếu không có lỗi
+        return Object.keys(newErrors).length === 0;
     };
 
     // Xử lý Gửi Form
@@ -82,22 +85,20 @@ function AppointmentForm() {
         e.preventDefault();
 
         if (validateForm()) {
-            console.log("Dữ liệu gửi đi:", formData);
-
             try {
-                const response = await fetch('http://localhost:8080/api/appointments', {
+                const response = await fetch(`${API_URL}/appointments`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        ...getAuthHeaders() // Giải nén object token vào headers
+                        ...getAuthHeaders()
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify({ ...formData, appointmentDate })
                 });
 
                 if (response.ok) {
                     alert("Đặt lịch thành công!");
-                    // Reset form sau khi gửi (tùy chọn)
-                    setFormData({ fullName: '', phone: '', identityNumber: '', symptoms: '' });
+                    setFormData({ fullName: '', phone: '', identityNumber: '', symptoms: '', doctorId: '' });
+                    setAppointmentDate('');
                 } else {
                     const errData = await response.text();
                     alert("Đặt lịch thất bại: " + errData);
@@ -107,8 +108,10 @@ function AppointmentForm() {
             }
         }
     };
+
+    // Lấy danh sách bác sĩ
     useEffect(() => {
-        fetch('http://localhost:8080/api/doctors', {
+        fetch(`${API_URL}/doctors`, {
             headers: getAuthHeaders()
         })
             .then(res => res.json())
@@ -119,12 +122,12 @@ function AppointmentForm() {
             })
             .catch(err => console.error("Lỗi tải danh sách bác sĩ:", err));
     }, []);
+
     return (
         <div className="booking-container">
             <h2>📝 Đăng Ký Lịch Khám</h2>
             <form onSubmit={handleSubmit} className="booking-form">
 
-                {/* Trường CCCD/BHYT - Đặt lên đầu để check bệnh nhân cũ */}
                 <div className="form-group">
                     <label>Chọn Bác Sĩ Khám (*)</label>
                     <select
@@ -134,12 +137,13 @@ function AppointmentForm() {
                     >
                         <option value="">-- Chọn bác sĩ phụ trách --</option>
                         {doctors.map(doc => (
-                            <option key={doc.id} value={doc.id}>
-                                {doc.name} {doc.speciality ? `(${doc.speciality})` : ''}
+                            <option key={doc.id || doc.user_id} value={doc.id || doc.user_id}>
+                                {doc.name || doc.username} {doc.speciality ? `(${doc.speciality})` : ''}
                             </option>
                         ))}
                     </select>
-                    <label style={{ display: 'block', marginBottom: '8px', color: '#cbd5e1' }}>
+
+                    <label style={{ display: 'block', margin: '12px 0 8px 0', color: '#cbd5e1' }}>
                         Thời Gian Khám (*)
                     </label>
                     <input
@@ -158,21 +162,20 @@ function AppointmentForm() {
                         }}
                     />
                     {errors.doctorId && <small className="error-text">{errors.doctorId}</small>}
-                    <label>Số CCCD / BHYT (*)</label>
+
+                    <label style={{ marginTop: '12px', display: 'block' }}>Số CCCD / BHYT (*)</label>
                     <input
                         type="text"
                         name="identityNumber"
                         value={formData.identityNumber}
                         onChange={handleChange}
-                        onBlur={handleCheckIdentity} // Kích hoạt kiểm tra khi click ra ngoài
+                        onBlur={handleCheckIdentity}
                         placeholder="Nhập số CCCD hoặc Mã BHYT"
-
                     />
                     {isLoading && <small className="text-info">Đang kiểm tra hồ sơ...</small>}
                     {errors.identityNumber && <small className="error-text">{errors.identityNumber}</small>}
                 </div>
 
-                {/* Hiển thị nhãn Hồ sơ */}
                 {patientStatus === 'EXISTING' && (
                     <div className="status-badge existing">🟢 Đã tìm thấy hồ sơ bệnh nhân cũ</div>
                 )}
@@ -188,7 +191,7 @@ function AppointmentForm() {
                         value={formData.fullName}
                         onChange={handleChange}
                         placeholder="Nguyễn Văn A"
-                        disabled={patientStatus === 'EXISTING'} // Khóa ô nếu là bệnh nhân cũ
+                        disabled={patientStatus === 'EXISTING'}
                     />
                     {errors.fullName && <small className="error-text">{errors.fullName}</small>}
                 </div>
