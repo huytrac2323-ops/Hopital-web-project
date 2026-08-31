@@ -5,7 +5,7 @@ import { getAuthHeaders } from '../../utils/auth';
 
 const API_URL = window.location.hostname === 'localhost'
     ? 'http://localhost:8080/api'
-    : 'https://hopital-web-project.onrender.com/apii';
+    : 'https://hopital-web-project.onrender.com/api';
 
 function AppointmentForm() {
     const [formData, setFormData] = useState({
