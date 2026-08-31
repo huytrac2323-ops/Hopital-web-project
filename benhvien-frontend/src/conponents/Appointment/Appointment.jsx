@@ -115,10 +115,22 @@ function AppointmentForm() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                ...getAuthHeaders() // Đảm bảo hàm này lấy đúng 'Authorization': 'Bearer ' + token từ localStorage
+                ...getAuthHeaders()
             }
         })
-            .catch(err => console.error("Lỗi tải danh sách bác sĩ:", err));
+            .then(async res => {
+                if (!res.ok) {
+                    const text = await res.text();
+                    throw new Error(text || 'Lỗi tải danh sách bác sĩ');
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setDoctors(data);
+                }
+            })
+            .catch(err => console.error("Lỗi tải danh sách bác sĩ:", err.message));
     }, []);
 
     return (
