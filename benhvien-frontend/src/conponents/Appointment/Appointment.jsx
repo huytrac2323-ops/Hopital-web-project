@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import './AppointmentForm.css'; // File CSS tự tạo thêm để làm đẹp form
 import { getAuthHeaders } from '../../utils/auth';
 
-// TỰ ĐỘNG CHUYỂN ĐỔI LINK API: Dùng localhost khi chạy dưới máy tính, hoặc link render khi deploy online
+
 const API_URL = window.location.hostname === 'localhost'
     ? 'http://localhost:8080/api'
-    : 'https://<ten-backend-cua-ban>.onrender.com/api'; // Thay link backend thực tế của bạn vào đây
+    : 'https://hopital-backend-71bc.onrender.com/api';
 
 function AppointmentForm() {
     const [formData, setFormData] = useState({
