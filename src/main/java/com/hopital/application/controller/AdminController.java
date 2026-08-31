@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(origins = "https://hopital-frontend-71bc.onrender.com")
 public class AdminController {
 
     // API này chỉ Admin mới gọi được

@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/patients")
-@CrossOrigin(origins = "https://hopital-frontend-71bc.onrender.com")
 public class PatientController {
 
     @Autowired

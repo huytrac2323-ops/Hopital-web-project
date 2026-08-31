@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "https://hopital-frontend-71bc.onrender.com")
 public class AuthController {
 
     private AuthService authService;

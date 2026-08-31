@@ -28,10 +28,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
+        // Bổ sung khối lệnh này ngay đầu hàm
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
         // get JWT token from http request
         String token = getTokenFromRequest(request);
         System.out.println("JwtAuthenticationFilter: Token received: " + (token != null ? "YES" : "NO"));
