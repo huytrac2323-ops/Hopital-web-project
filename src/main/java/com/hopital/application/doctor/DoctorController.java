@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 @CrossOrigin(origins = "https://hopital-frontend-71bc.onrender.com") // Cấu hình CORS của bạn
 public class DoctorController {
 
+
     // (Giả sử bạn đã có Service và Repository)
     @Autowired
     private DoctorService doctorService;

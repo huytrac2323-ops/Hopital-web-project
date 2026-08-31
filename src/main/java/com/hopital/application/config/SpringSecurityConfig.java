@@ -47,8 +47,11 @@ public class SpringSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Sử dụng setAllowedOriginPatterns thay vì setAllowedOrigins
-        configuration.setAllowedOriginPatterns(List.of("http://localhost:3000", "https://hopital-frontend-71bc.onrender.com"));
+        // Bổ sung thêm http://localhost:5173 vào danh sách cho phép
+        configuration.setAllowedOriginPatterns(List.of(
+                "http://localhost:3000",
+                "https://hopital-frontend-71bc.onrender.com"
+        ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
         configuration.setAllowCredentials(true);
